@@ -16,11 +16,13 @@ const recordChanger = obj => {
 
   if (obj["Type"] === "Inventory Part") {
     if (obj["Active Status"] === "Active") {
-      newObj.sku = obj["Item"];
-      newObj.qty = obj["Quantity On Hand"];
-      newObj.price = obj["Price"];
-      newObj.type = "simple";
-      return newObj;
+      if (obj["Quantity On Hand"] < 0) {
+        newObj.sku = obj["Item"];
+        newObj.qty = obj["Quantity On Hand"];
+        newObj.price = obj["Price"];
+        newObj.type = "simple";
+        return newObj;
+      }
     }
   }
 };
