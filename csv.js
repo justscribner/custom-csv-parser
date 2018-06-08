@@ -5,8 +5,10 @@ const csv = require("csv");
 const parse = require("csv-parse");
 const stringify = require("csv-stringify");
 const fs = require("fs");
+const path = require("path");
 const transform = require("stream-transform");
-const input = fs.createReadStream(__dirname + `/${args}`);
+
+const input = fs.createReadStream(path.dirname(process.execPath) + `/${args}`);
 const parser = parse({ delimeter: ",", columns: true });
 
 const recordChanger = obj => {
