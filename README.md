@@ -1,4 +1,4 @@
-# csv-parse
+# custom-csv-parser
 To run the program:
 1. Download the zipfile from this repository.
 2. Unzip the folder.
