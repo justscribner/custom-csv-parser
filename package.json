@@ -1,0 +1,21 @@
+{
+  "name": "csv-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node csv.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "bin": {
+    "csv-parser": "./csv.js"
+  },
+  "dependencies": {
+    "csv": "^3.1.0",
+    "csv-parse": "^2.4.1",
+    "fs": "0.0.1-security",
+    "stream-transform": "^1.0.2"
+  }
+}
