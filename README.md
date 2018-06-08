@@ -7,6 +7,6 @@ To run the program:
 Tada!
 
 Sample Commands: 
-Windows: "csv-parse.exe sample.csv"
-Linux: "csv-linux sample.csv"
-MacOS: "csv-macos sample.csv"
+Windows: "csv-parser-win.exe sample.csv"
+Linux: "csv-parser-linux sample.csv"
+MacOS: "csv-parser-macos sample.csv"
