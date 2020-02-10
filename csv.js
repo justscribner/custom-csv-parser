@@ -9,42 +9,51 @@ const path = require("path");
 const transform = require("stream-transform");
 
 const input = fs.createReadStream(path.dirname(process.execPath) + `/${args}`);
-const parser = parse({ delimeter: ",", columns: true });
+const parser = parse({
+    delimeter: ",",
+    columns: true
+});
 
 const recordChanger = obj => {
-  let newObj = {};
+    let newObj = {};
 
-  if (obj["Type"] === "Inventory Part") {
-    if (obj["Active Status"] === "Active") {
-      if (obj["Quantity On Hand"] >= 0) {
-        newObj.sku = obj["Item"];
-        newObj.qty = obj["Quantity On Hand"];
-        newObj.price = obj["Price"];
-        newObj.type = "simple";
-        return newObj;
-      }
+    if (obj["Type"] === "Inventory Part") {
+        if (obj["Active Status"] === "Active") {
+            if (obj["Quantity On Hand"] < 0) {
+                obj["Quantity On Hand"] = 0;
+            }
+            if (obj["Quantity On Hand"] >= 0) {
+                newObj.sku = obj["Item"];
+                newObj.qty = obj["Quantity On Hand"];
+                newObj.price = obj["Price"];
+                newObj.type = "simple";
+                return newObj;
+            }
+        }
     }
-  }
 };
 
 const transformer = transform(
-  (record, cb) => {
-    setTimeout(function() {
-      cb(null, recordChanger(record));
-    }, 500);
-  },
-  { parallel: 1000 }
+    (record, cb) => {
+        setTimeout(function() {
+            cb(null, recordChanger(record));
+        }, 500);
+    }, {
+        parallel: 1000
+    }
 );
 
-const stringifier = stringify({ header: true }, (err, output) => {
-  if (err) throw err;
-  fs.writeFile(`NEW${args}`, output, err => {
+const stringifier = stringify({
+    header: true
+}, (err, output) => {
     if (err) throw err;
-    console.log(`NEW${args} saved!`);
-  });
+    fs.writeFile(`NEW${args}`, output, err => {
+        if (err) throw err;
+        console.log(`NEW${args} saved!`);
+    });
 });
 
 input
-  .pipe(parser)
-  .pipe(transformer)
-  .pipe(stringifier);
+    .pipe(parser)
+    .pipe(transformer)
+    .pipe(stringifier);
